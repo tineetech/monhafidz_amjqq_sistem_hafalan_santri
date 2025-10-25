@@ -18,7 +18,7 @@ class Ustadzah extends Model
         'tanggal_lahir',
         'alamat_lengkap',
         'no_hp',
-        'status_santri',
+        'status',
     ];
 
     protected $dates = ['tanggal_lahir'];

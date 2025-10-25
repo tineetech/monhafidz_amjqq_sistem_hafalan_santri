@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('no_hp', 20)->nullable();
 
             // Status (misal aktif/nonaktif atau santri/guru)
-            $table->enum('status_santri', ['Aktif', 'Tidak Aktif'])->default('Aktif');
+            $table->enum('status', ['Aktif', 'Tidak Aktif'])->default('Aktif');
 
             $table->timestamps();
         });

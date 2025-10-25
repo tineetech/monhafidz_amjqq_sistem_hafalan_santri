@@ -20,7 +20,7 @@
   <header class="bg-green-900 text-white">
     <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
       <h1 class="text-xl font-semibold flex items-center gap-2">
-        <img src="https://placehold.co/40x40" class="rounded-full" alt="logo">
+        <img src="{{ asset('images/logo.png') }}" style="width: 40px" class="rounded-full" alt="logo">
         Pondok Al Munawwar
       </h1>
       <nav class="space-x-4 hidden md:block">
