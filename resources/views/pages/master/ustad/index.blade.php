@@ -25,7 +25,7 @@
           </div>
         </div>
 
-        <div class="box-body">
+        <div class="box-body table-responsive">
           @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
           @endif
