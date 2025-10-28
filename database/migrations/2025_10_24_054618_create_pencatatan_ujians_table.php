@@ -24,6 +24,7 @@ return new class extends Migration
                   ->onDelete('set null');
 
             // Jenis ujian: tasmi' atau ujian akhir
+            $table->date('tanggal');
             $table->enum('jenis_ujian', ['tasmi', 'ujian_akhir'])->default('tasmi');
 
             // Nilai akhir ujian (0-100)

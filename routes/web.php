@@ -23,6 +23,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/jadwal-hafalan-zm/edit', [App\Http\Controllers\JadwalHafalanController::class, 'editAddon'])->name('jadwal-hafalan.edit');
     Route::put('/jadwal-hafalan-zm/update', [App\Http\Controllers\JadwalHafalanController::class, 'update'])->name('jadwal-hafalan-zm.update');
 
+    Route::resource('/absensi', App\Http\Controllers\AbsensiController::class);
+    Route::get('/get-hafalan/{santri_id}', [App\Http\Controllers\AbsensiController::class, 'getHafalan']);
+
     Route::resource('/pencatatan-hafalan', App\Http\Controllers\PencatatanHafalanController::class);
     Route::resource('/rekap-hafalan', App\Http\Controllers\RekapHafalanController::class);
 

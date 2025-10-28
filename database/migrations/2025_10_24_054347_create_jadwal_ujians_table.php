@@ -17,6 +17,7 @@ return new class extends Migration
                   ->onDelete('cascade');
 
             // Hari ujian (misalnya Senin, Selasa, dst)
+            $table->date('tanggal');
             $table->string('hari', 20);
 
             // Waktu ujian

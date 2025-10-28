@@ -60,7 +60,7 @@
             </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="form-group">
               <label>Konfirmasi Password Baru</label>
               <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi password baru">

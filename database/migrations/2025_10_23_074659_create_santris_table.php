@@ -28,7 +28,7 @@ return new class extends Migration
 
             // Hafalan dan status
             $table->integer('total_juz_tercapai')->default(0)->comment('Jumlah juz ziyadah yang telah dicapai');
-            $table->enum('status_santri', ['Aktif', 'Tidak Aktif', 'Lulus'])->default('Aktif');
+            $table->enum('status_santri', ['Aktif', 'Tamat Hafalan', 'Tidak Aktif', 'Lulus'])->default('Aktif');
 
             $table->timestamps();
         });

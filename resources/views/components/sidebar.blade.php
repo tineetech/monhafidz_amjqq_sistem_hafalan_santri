@@ -36,6 +36,14 @@
           </a>
         </li>
         <li class="">
+          <a href="{{ route('absensi.index') }}">
+            <i class="fa fa-id-badge"></i> <span>Absensi</span>
+            {{-- <span class="pull-right-container">
+              <small class="label pull-right bg-green">new</small>
+            </span> --}}
+          </a>
+        </li>
+        <li class="">
           <a href="{{ route('pencatatan-hafalan.index') }}">
             <i class="fa fa-book"></i> <span>Pencatatan Hafalan</span>
             {{-- <span class="pull-right-container">
