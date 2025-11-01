@@ -13,7 +13,7 @@ class RekapHafalanController extends Controller
     public function index()
     {
         $santri = Santri::all();
-        $data = $santri; // Ganti dengan logika untuk mengambil data yang diperlukan untuk rekap hafalan
+        $data = $santri;
         return view('pages.rekap-hafalan.index', compact('data'));
     }
 

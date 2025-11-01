@@ -12,7 +12,7 @@ class JadwalUjian extends Model
     protected $table = "jadwal_ujian";
     protected $fillable = [
         'santri_id',
-        'hari',
+        'tanggal',
         'jam_mulai',
         'jam_selesai',
         'pembimbing_putra_id',

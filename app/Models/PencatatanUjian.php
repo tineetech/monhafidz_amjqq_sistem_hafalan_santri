@@ -9,8 +9,11 @@ class PencatatanUjian extends Model
 {
     use HasFactory;
 
+    protected $table = 'pencatatan_ujian';
+
     protected $fillable = [
         'santri_id',
+        'tanggal',
         'ustadzah_id',
         'jenis_ujian',
         'nilai_akhir',

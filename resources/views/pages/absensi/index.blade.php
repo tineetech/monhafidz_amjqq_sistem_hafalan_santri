@@ -38,7 +38,6 @@
                   <th>No</th>
                   <th>Nama Santri</th>
                   <th>Tanggal</th>
-                  <th>Pencatatan Hafalan</th>
                   <th>Catatan</th>
                   <th>Status</th>
                   <th>Aksi</th>
@@ -50,7 +49,6 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $a->santri->nama_lengkap ?? '-' }}</td>
                     <td>{{ $a->tanggal->format('d-m-Y') }}</td>
-                    <td>{{ $a->pencatatanHafalan->jenis_hafalan . ' - ' . $a->pencatatanHafalan->surah_ayat ?? '-' }}</td>
                     <td>{{ $a->catatan ?? '-' }}</td>
                     <td>
                       @php

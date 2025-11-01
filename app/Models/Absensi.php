@@ -12,7 +12,6 @@ class Absensi extends Model
     protected $table = "absensi";
     protected $fillable = [
         'santri_id',
-        'pencatatan_hafalan_id',
         'tanggal',
         'status',
         'catatan',
@@ -26,11 +25,5 @@ class Absensi extends Model
     public function santri()
     {
         return $this->belongsTo(Santri::class);
-    }
-
-    // Relasi ke Pencatatan Hafalan
-    public function pencatatanHafalan()
-    {
-        return $this->belongsTo(PencatatanHafalan::class);
     }
 }

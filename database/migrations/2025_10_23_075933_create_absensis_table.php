@@ -13,7 +13,6 @@ return new class extends Migration
 
             // Relasi utama
             $table->foreignId('santri_id')->constrained('santri')->onDelete('cascade');
-            $table->foreignId('pencatatan_hafalan_id')->nullable()->constrained('pencatatan_hafalan')->onDelete('set null');
 
             // Data absensi
             $table->date('tanggal');

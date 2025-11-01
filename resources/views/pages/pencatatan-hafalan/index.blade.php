@@ -35,6 +35,7 @@
             <th>Tanggal</th>
             <th>Jenis Hafalan</th>
             <th>Surah/Ayat</th>
+            <th>Juz tercapai</th>
             <th>Nilai Tajwid</th>
             <th>Nilai Kelancaran</th>
             <th>Status</th>
@@ -50,6 +51,7 @@
               <td>{{ $item->tanggal->format('d-m-Y') }}</td>
               <td>{{ ucfirst($item->jenis_hafalan) }}</td>
               <td>{{ $item->surah_ayat }}</td>
+              <td>{{ $item->juz_tercapai ?? '0' }}</td>
               <td>{{ $item->nilai_tajwid }}</td>
               <td>{{ $item->nilai_kelancaran }}</td>
               <td>{{ ucfirst($item->status) }}</td>

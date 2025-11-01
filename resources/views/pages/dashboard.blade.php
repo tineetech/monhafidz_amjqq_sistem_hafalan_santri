@@ -87,7 +87,7 @@
             <div class="" style="display: flex; justify-content: space-between;width: 100%;align-items: center;padding-block: 10px;padding-inline: 15px;">
               <h3 class="" style="font-size: 16px;margin: 0; padding: 0">Jadwal Setoran Ziyadah</h3>
               <div>
-                <button class="btn btn-success">Atur Jadwal</button>
+                <a href="{{ route('jadwal-hafalan.index') }}" class="btn btn-success">Atur Jadwal</a>
               </div>
             </div>
             <!-- /.box-header -->
@@ -118,7 +118,7 @@
             <div class="" style="display: flex; justify-content: space-between;width: 100%;align-items: center;padding-block: 10px;padding-inline: 15px;">
               <h3 class="" style="font-size: 16px;margin: 0; padding: 0">Jadwal Setoran Muraja'ah</h3>
               <div>
-                <button class="btn btn-success">Atur Jadwal</button>
+                <a href="{{ route('jadwal-hafalan.index') }}" class="btn btn-success">Atur Jadwal</a>
               </div>
             </div>
             <!-- /.box-header -->

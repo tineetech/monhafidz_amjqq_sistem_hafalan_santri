@@ -16,6 +16,7 @@ class PencatatanHafalan extends Model
         'tanggal',
         'jenis_hafalan',
         'surah_ayat',
+        'juz_tercapai',
         'nilai_tajwid',
         'nilai_kelancaran',
         'catatan',

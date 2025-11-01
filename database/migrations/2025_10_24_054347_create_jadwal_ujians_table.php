@@ -18,7 +18,7 @@ return new class extends Migration
 
             // Hari ujian (misalnya Senin, Selasa, dst)
             $table->date('tanggal');
-            $table->string('hari', 20);
+            // $table->string('hari', 20);
 
             // Waktu ujian
             $table->time('jam_mulai');

@@ -2,63 +2,75 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PencatatanUjian;
+use App\Models\Santri;
+use App\Models\Ustadzah;
 use Illuminate\Http\Request;
 
 class PencatatanUjianController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $ujian = PencatatanUjian::with(['santri', 'ustadzah'])->latest()->get();
+        return view('pages.pencatatan-ujian.index', compact('ujian'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $santri = Santri::all();
+        $ustadzah = Ustadzah::all();
+        return view('pages.pencatatan-ujian.create', compact('santri', 'ustadzah'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tanggal'      => 'required|date',
+            'santri_id'    => 'required|exists:santri,id',
+            'ustadzah_id'  => 'nullable|exists:ustadzah,id',
+            'jenis_ujian'  => 'required|in:tasmi,ujian_akhir',
+            'nilai_akhir'  => 'nullable|numeric|min:0|max:100',
+            'status_ujian' => 'required|in:belum_diuji,lulus,remidi',
+        ]);
+
+        PencatatanUjian::create($request->all());
+
+        return redirect()->route('pencatatan-ujian.index')
+                         ->with('success', 'Data ujian berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $ujian = PencatatanUjian::findOrFail($id);
+        $santri = Santri::all();
+        $ustadzah = Ustadzah::all();
+        return view('pages.pencatatan-ujian.edit', compact('ujian', 'santri', 'ustadzah'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'tanggal'      => 'required|date',
+            'santri_id'    => 'required|exists:santri,id',
+            'ustadzah_id'  => 'nullable|exists:ustadzah,id',
+            'jenis_ujian'  => 'required|in:tasmi,ujian_akhir',
+            'nilai_akhir'  => 'nullable|numeric|min:0|max:100',
+            'status_ujian' => 'required|in:belum_diuji,lulus,remidi',
+        ]);
+
+        $ujian = PencatatanUjian::findOrFail($id);
+        $ujian->update($request->all());
+
+        return redirect()->route('pencatatan-ujian.index')
+                         ->with('success', 'Data ujian berhasil diupdate');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $ujian = PencatatanUjian::findOrFail($id);
+        $ujian->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('pencatatan-ujian.index')
+                         ->with('success', 'Data ujian berhasil dihapus');
     }
 }

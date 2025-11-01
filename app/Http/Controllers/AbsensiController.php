@@ -14,7 +14,7 @@ class AbsensiController extends Controller
      */
     public function index()
     {
-        $absensi = Absensi::with(['santri', 'pencatatanHafalan'])->latest()->get();
+        $absensi = Absensi::with(['santri'])->latest()->get();
         return view('pages.absensi.index', compact('absensi'));
     }
 
@@ -35,7 +35,6 @@ class AbsensiController extends Controller
     {
         $request->validate([
             'santri_id' => 'required|exists:santri,id',
-            'pencatatan_hafalan_id' => 'nullable|exists:pencatatan_hafalan,id',
             'tanggal' => 'required|date',
             'status' => 'required|in:Hadir,Izin,Sakit,Alpa',
             'catatan' => 'nullable|string',
@@ -51,7 +50,7 @@ class AbsensiController extends Controller
      */
     public function show($id)
     {
-        $absensi = Absensi::with(['santri', 'pencatatanHafalan'])->findOrFail($id);
+        $absensi = Absensi::with(['santri'])->findOrFail($id);
         return view('pages.absensi.show', compact('absensi'));
     }
 
@@ -74,7 +73,6 @@ class AbsensiController extends Controller
     {
         $request->validate([
             'santri_id' => 'required|exists:santri,id',
-            'pencatatan_hafalan_id' => 'nullable|exists:pencatatan_hafalan,id',
             'tanggal' => 'required|date',
             'status' => 'required|in:Hadir,Izin,Sakit,Alpa',
             'catatan' => 'nullable|string',

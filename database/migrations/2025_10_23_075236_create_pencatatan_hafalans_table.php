@@ -17,6 +17,7 @@ return new class extends Migration
 
             // Data hafalan
             $table->date('tanggal');
+            $table->number('juz_tercapai')->nullable();
             $table->enum('jenis_hafalan', ['Ziyadah', 'Murajaah']);
             $table->string('surah_ayat')->nullable(); // contoh: "Al-Baqarah: 1–10"
             $table->decimal('nilai_tajwid', 5, 2)->nullable();

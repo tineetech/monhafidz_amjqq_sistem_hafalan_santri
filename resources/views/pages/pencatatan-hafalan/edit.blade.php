@@ -93,6 +93,12 @@
                         <input type="number" name="nilai_kelancaran" class="form-control" step="0.1" value="{{ $data->nilai_kelancaran }}" required>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Juz tercapai (untuk proggress ke 5juz/10juz persemester)</label>
+                        <input type="number" name="juz_tercapai" class="form-control" step="0.1" value="{{ $data->juz_tercapai }}" required>
+                    </div>
+                </div>
 
                 <div class="col-md-12">
                     <div class="form-group">

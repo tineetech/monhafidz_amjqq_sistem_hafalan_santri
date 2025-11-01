@@ -28,16 +28,32 @@
           </ul>
         </li>
         <li class="">
-          <a href="{{ route('jadwal-hafalan.index') }}">
-            <i class="fa fa-calendar"></i> <span>Jadwal Hafalan</span>
+          <a href="{{ route('absensi.index') }}">
+            <i class="fa fa-id-badge"></i> <span>Absensi</span>
             {{-- <span class="pull-right-container">
               <small class="label pull-right bg-green">new</small>
             </span> --}}
           </a>
         </li>
         <li class="">
-          <a href="{{ route('absensi.index') }}">
-            <i class="fa fa-id-badge"></i> <span>Absensi</span>
+          <a href="{{ route('jadwal-ujian.index') }}">
+            <i class="fa fa-calendar"></i> <span>Jadwal Ujian</span>
+            {{-- <span class="pull-right-container">
+              <small class="label pull-right bg-green">new</small>
+            </span> --}}
+          </a>
+        </li>
+        <li class="">
+          <a href="{{ route('pencatatan-ujian.index') }}">
+            <i class="fa fa-book"></i> <span>Pencatatan Ujian</span>
+            {{-- <span class="pull-right-container">
+              <small class="label pull-right bg-green">new</small>
+            </span> --}}
+          </a>
+        </li>
+        <li class="">
+          <a href="{{ route('jadwal-hafalan.index') }}">
+            <i class="fa fa-calendar"></i> <span>Jadwal Hafalan</span>
             {{-- <span class="pull-right-container">
               <small class="label pull-right bg-green">new</small>
             </span> --}}
