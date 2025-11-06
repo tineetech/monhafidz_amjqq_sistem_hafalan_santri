@@ -36,6 +36,7 @@
                     <th>Nama Lengkap</th>
                     <th>Jenis Kelamin</th>
                     <th>Nik</th>
+                    <th style="width: 130px">Total Juz Tercapai (Ziyadah)</th>
                     <th>TGL Lahir</th>
                     <th>Alamat</th>
                     <th>No HP</th>
@@ -50,11 +51,44 @@
                       <td>{{ $s->nama_lengkap }}</td>
                       <td>{{ $s->jenis_kelamin }}</td>
                       <td>{{ $s->nik }}</td>
+                      <td>{{ $s->total_juz_tercapai }} juz</td>
                       <td>{{ $s->tanggal_lahir }}</td>
                       <td>{{ $s->alamat_lengkap }}</td>
                       <td>{{ $s->no_hp }}</td>
                       <td>{{ $s->status_santri }}</td>
                       <td>
+                        @if ($s->total_juz_tercapai >= 30)
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal{{ $s->id }}">
+                          Lihat Sertifikat
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal{{ $s->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Pilih jenis sertifikat</h5>
+                                {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button> --}}
+                              </div>
+                              <div class="modal-body" style="width: 100%;display: flex;flex-direction: column;gap: 8px;text-align: start">
+                                <a class="btn btn-primary"
+                                  href="{{ route('sertifikat.tahfidz', ['id_santri' => $s->id, 'tanggal' => now()]) }}"
+                                  target="_blank">
+                                    Sertifikat Hafalan 30 Juz <i class="fa fa-book"></i>
+                                </a>
+
+                                <a class="btn btn-success" href="{{ url('/api/sertifikat-kelulusan?' . 'id_santri=' . $s->id . '&tanggal=' . now()) }}">Sertifikat Kelulusan Final <i style="margin-left: 8px" class="fa fa-graduation-cap"></i></a>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        @endif
                         <a href="{{ route('santri.edit', $s->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('santri.destroy', $s->id) }}" method="POST" style="display:inline;">
                           @csrf

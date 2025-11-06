@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\SertifikatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

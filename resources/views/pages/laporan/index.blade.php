@@ -345,7 +345,7 @@
             </tr>
             <tr style="font-weight:bold;background:#def">
                 <td colspan="3" class="text-center">Persentase Kehadiran</td>
-                <td colspan="5">${persenHadir}% hadir | ${persenAlpha}% alpa</td>
+                <td colspan="5">${persenHadir}% hadir</td>
             </tr>
         `;
     });

@@ -282,4 +282,102 @@ class LaporanController extends Controller
             'data' => $absensi
         ]);
     }
+        
+    public function exportPdfAbsensi(Request $request)
+    {
+        $request->validate([
+            'santri_id' => 'required',
+            'jenis_laporan' => 'required|in:hari,bulan',
+            'tanggal' => 'required|date'
+        ]);
+
+        $santri = Santri::find($request->santri_id);
+        if (!$santri) {
+            abort(404, "Santri tidak ditemukan");
+        }
+
+        $tanggal = Carbon::parse($request->tanggal);
+
+        // === LOGIKA SAMA DENGAN API ===
+        if ($request->jenis_laporan == 'hari') {
+
+            $absensi = Absensi::where('santri_id', $santri->id)
+                ->whereDate('tanggal', $tanggal)
+                ->select(
+                    DB::raw("DATE_FORMAT(tanggal, '%d-%m-%Y') as tanggal"),
+                    DB::raw("MONTHNAME(tanggal) as bulan"),
+                    DB::raw("SUM(status = 'Hadir') as hadir"),
+                    DB::raw("SUM(status = 'Izin') as izin"),
+                    DB::raw("SUM(status = 'Sakit') as sakit"),
+                    DB::raw("SUM(status = 'Alpa') as alpa")
+                )
+                ->groupBy('tanggal')
+                ->get();
+
+            $periode = $tanggal->format('d F Y');
+
+        } else {
+
+            // Generate seluruh tanggal 1–30/31
+            $jumlahHari = $tanggal->daysInMonth;
+            $rangeTanggal = collect(range(1, $jumlahHari))
+                ->map(fn($d) => $tanggal->format("Y-m-") . str_pad($d, 2, "0", STR_PAD_LEFT));
+
+            // Ambil dari DB
+            $absensiDB = Absensi::where('santri_id', $santri->id)
+                ->whereMonth('tanggal', $tanggal->month)
+                ->whereYear('tanggal', $tanggal->year)
+                ->select(
+                    DB::raw("DATE(tanggal) AS tgl_key"),
+                    'status',
+                    'catatan'
+                )
+                ->get()
+                ->keyBy('tgl_key');
+
+            // Gabungkan
+            $absensi = [];
+            foreach ($rangeTanggal as $tgl) {
+                $row = $absensiDB->get($tgl);
+
+                $absensi[] = [
+                    'tanggal' => Carbon::parse($tgl)->format('d-m-Y'),
+                    'bulan'   => Carbon::parse($tgl)->format('F'),
+                    'hadir'   => $row && $row->status == 'Hadir' ? 1 : 0,
+                    'izin'    => $row && $row->status == 'Izin' ? 1 : 0,
+                    'sakit'   => $row && $row->status == 'Sakit' ? 1 : 0,
+                    'alpa'    => $row && $row->status == 'Alpa' ? 1 : 0,
+                    'keterangan' => $row->catatan ?? null,
+                ];
+            }
+
+            $periode = $tanggal->format('F Y');
+        }
+
+        // Hitung total
+        $totalHadir = collect($absensi)->sum('hadir');
+        $totalIzin  = collect($absensi)->sum('izin');
+        $totalSakit = collect($absensi)->sum('sakit');
+        $totalAlpa  = collect($absensi)->sum('alpa');
+
+        $totalPertemuan = $totalHadir + $totalIzin + $totalSakit + $totalAlpa;
+        $persenHadir = $totalPertemuan > 0 ? round(($totalHadir / $totalPertemuan) * 100) : 0;
+        $persenAlpa  = $totalPertemuan > 0 ? round(($totalAlpa / $totalPertemuan) * 100) : 0;
+
+        // GENERATE PDF
+        $pdf = PDF::loadView('pdf.laporan_absensi', [
+            'santri' => $santri,
+            'periode' => $periode,
+            'pembimbing' => $santri->pembimbing ?? '-',
+            'data' => $absensi,
+            'totalHadir' => $totalHadir,
+            'totalIzin' => $totalIzin,
+            'totalSakit' => $totalSakit,
+            'totalAlpa' => $totalAlpa,
+            'persenHadir' => $persenHadir,
+            'persenAlpa' => $persenAlpa,
+        ])->setPaper('a4');
+
+        return $pdf->stream("Laporan-Absensi-{$santri->nama_lengkap}-{$periode}.pdf");
+    }
 }
