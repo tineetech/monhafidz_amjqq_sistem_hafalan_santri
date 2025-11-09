@@ -79,8 +79,12 @@
                                   target="_blank">
                                     Sertifikat Hafalan 30 Juz <i class="fa fa-book"></i>
                                 </a>
+                                <a class="btn btn-success"
+                                  href="{{ route('sertifikat.kelulusan', ['id_santri' => $s->id, 'tanggal' => now()]) }}"
+                                  target="_blank">
+                                    Sertifikat Kelulusan <i class="fa fa-graduation-cap"></i>
+                                </a>
 
-                                <a class="btn btn-success" href="{{ url('/api/sertifikat-kelulusan?' . 'id_santri=' . $s->id . '&tanggal=' . now()) }}">Sertifikat Kelulusan Final <i style="margin-left: 8px" class="fa fa-graduation-cap"></i></a>
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

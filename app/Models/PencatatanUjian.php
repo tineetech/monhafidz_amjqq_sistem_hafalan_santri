@@ -12,18 +12,15 @@ class PencatatanUjian extends Model
     protected $table = 'pencatatan_ujian';
 
     protected $fillable = [
-        'santri_id',
-        'tanggal',
+        'jadwal_ujian_id',
         'ustadzah_id',
-        'jenis_ujian',
-        'nilai_akhir',
+        'nilai_ujian',
         'status_ujian',
     ];
-
-    // Relasi ke Santri
-    public function santri()
+    // Relasi ke JadwalUjian
+    public function jadwalUjian()
     {
-        return $this->belongsTo(Santri::class);
+        return $this->belongsTo(JadwalUjian::class);
     }
 
     // Relasi ke Ustadzah (penilai)

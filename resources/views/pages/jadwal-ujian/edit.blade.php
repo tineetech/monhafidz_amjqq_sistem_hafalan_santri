@@ -54,6 +54,19 @@
         </div>
 
         <div class="row">
+          <div class="col-md-12 form-group">
+            <label>Pilih semester</label>
+            <select name="semester_id" class="form-control" required>
+              @foreach ($semesters as $semester)
+                <option value="{{ $semester->id }}" {{ $jadwal->semester_id == $semester->id ? 'selected' : '' }}> 
+                  {{ ucfirst($semester->nama_semester) }}
+                </option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
           <div class="col-md-6 form-group">
             <label>Jam Mulai</label>
             <input type="time" name="jam_mulai" class="form-control" value="{{ $jadwal->jam_mulai }}" required>
@@ -96,6 +109,8 @@
           <select name="jenis_ujian" class="form-control" required>
             <option value="tasmi" {{ $jadwal->jenis_ujian == 'tasmi' ? 'selected' : '' }}>Tasmi'</option>
             <option value="ujian_akhir" {{ $jadwal->jenis_ujian == 'ujian_akhir' ? 'selected' : '' }}>Ujian Akhir</option>
+            <option value="ziyadah" {{ $jadwal->jenis_ujian == 'ziyadah' ? 'selected' : '' }}>Ziyadah</option>
+            <option value="murajaah" {{ $jadwal->jenis_ujian == 'murajaah' ? 'selected' : '' }}>Murajaah</option>
           </select>
         </div>
 

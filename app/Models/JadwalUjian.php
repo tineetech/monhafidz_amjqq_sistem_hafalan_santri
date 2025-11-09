@@ -12,6 +12,7 @@ class JadwalUjian extends Model
     protected $table = "jadwal_ujian";
     protected $fillable = [
         'santri_id',
+        'semester_id',
         'tanggal',
         'jam_mulai',
         'jam_selesai',
@@ -20,10 +21,22 @@ class JadwalUjian extends Model
         'jenis_ujian',
     ];
 
+    public function pencatatanUjian()
+    {
+        return $this->hasMany(PencatatanUjian::class);
+    }
+
     // Relasi ke Santri
     public function santri()
     {
         return $this->belongsTo(Santri::class);
+    }
+
+    
+    // Relasi ke Semester
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class);
     }
 
     // Relasi ke pembimbing putra

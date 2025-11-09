@@ -95,6 +95,7 @@
                 <option value="">Pilih status santri</option>
                 <option value="aktif" {{ old('status_santri', $santri->status_santri) == 'Aktif' ? 'selected' : '' }}>Aktif</option>
                 <option value="tidak aktif" {{ old('status_santri', $santri->status_santri) == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                <option value="tamat hafalan" {{ old('status_santri', $santri->status_santri) == 'Tamat Hafalan' ? 'selected' : '' }}>Tamat Hafalan</option>
                 <option value="lulus" {{ old('status_santri', $santri->status_santri) == 'Lulus' ? 'selected' : '' }}>Lulus</option>
               </select>
             </div>

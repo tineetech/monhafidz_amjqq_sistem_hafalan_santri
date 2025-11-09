@@ -40,16 +40,24 @@ class Santri extends Model
     /**
      * Relasi: Santri milik satu wali
      */
-    // Santri.php
     public function wali()
     {
         return $this->hasOne(WaliSantri::class);
     }
 
-    // app/Models/Santri.php
     public function pencatatanHafalan()
     {
         return $this->hasMany(PencatatanHafalan::class, 'santri_id');
+    }
+
+    public function jadwalUjian()
+    {
+        return $this->hasMany(JadwalUjian::class);
+    }
+
+    public function pencatatanUjian()
+    {
+        return $this->hasMany(PencatatanUjian::class);
     }
 
     public function getProgresHafalanAttribute()

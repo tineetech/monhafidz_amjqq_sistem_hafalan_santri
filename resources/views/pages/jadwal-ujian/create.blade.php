@@ -20,6 +20,15 @@
         </a>
       </div>
     </div>
+    @if ($errors->any())
+      <div class="alert alert-danger m-3">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
 
     <div class="box-body">
       <form action="{{ route('jadwal-ujian.store') }}" method="POST">
@@ -39,6 +48,17 @@
           <div class="col-md-6 form-group">
             <label>Tanggal Ujian</label>
             <input type="date" name="tanggal" class="form-control" value="{{ now()->format('Y-m-d') }}" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label>Pilih semester</label>
+            <select name="semester_id" class="form-control" required>
+              @foreach ($semesters as $semester)
+                <option value="{{ $semester->id }}">{{ ucfirst($semester->nama_semester) }}</option>
+              @endforeach
+            </select>
           </div>
         </div>
 
@@ -75,14 +95,18 @@
             </select>
           </div>
         </div>
-
-        <div class="form-group">
-          <label>Jenis Ujian</label>
-          <select name="jenis_ujian" class="form-control" required>
-            <option value="tasmi" selected>Tasmi'</option>
-            <option value="ujian_akhir">Ujian Akhir</option>
-          </select>
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label>Jenis Ujian</label>
+            <select name="jenis_ujian" class="form-control" required>
+              <option value="tasmi" selected>Tasmi'</option>
+              <option value="ujian_akhir">Ujian Akhir</option>
+              <option value="ziyadah">Ziyadah</option>
+              <option value="murajaah">Murajaah</option>
+            </select>
+          </div>
         </div>
+
 
         <div class="text-right">
           <button class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>

@@ -21,27 +21,22 @@
         @method('PUT')
 
         <div class="row">
-          <div class="form-group col-md-6">
-            <label>Tanggal</label>
-            <input type="date" name="tanggal" class="form-control"
-                   value="{{ old('tanggal', $ujian->tanggal) }}" required>
-          </div>
-
-          <div class="form-group col-md-6">
-            <label>Santri</label>
-            <select name="santri_id" class="form-control" required>
-              @foreach ($santri as $s)
-                <option value="{{ $s->id }}" {{ $ujian->santri_id == $s->id ? 'selected' : '' }}>
-                  {{ $s->nama_lengkap }}
+          <div class="form-group col-md-12">
+            <label>Pilih jadwal ujian</label>
+            <select name="jadwal_ujian_id" class="form-control" required>
+              <option value="">Pilih Jadwal Ujian</option>
+              @foreach ($jadwalUjian as $jadwal)
+                <option value="{{ $jadwal->id }}" {{ $ujian->jadwal_ujian_id == $jadwal->id ? 'selected' : '' }}>
+                  {{ ucfirst($jadwal->santri->nama_lengkap) }} | {{ $jadwal->tanggal }} | {{ ucfirst($jadwal->jenis_ujian) }}
                 </option>
               @endforeach
-            </select>
+            </select> 
           </div>
         </div>
 
         <div class="row">
           <div class="form-group col-md-6">
-            <label>Ustadzah Penilai</label>
+            <label>Pengawas</label>
             <select name="ustadzah_id" class="form-control">
               <option value="">Tidak Ada</option>
               @foreach ($ustadzah as $u)
@@ -53,28 +48,20 @@
           </div>
 
           <div class="form-group col-md-6">
-            <label>Jenis Ujian</label>
-            <select name="jenis_ujian" class="form-control" required>
-              <option value="tasmi" {{ $ujian->jenis_ujian == 'tasmi' ? 'selected' : '' }}>Tasmi'</option>
-              <option value="ujian_akhir" {{ $ujian->jenis_ujian == 'ujian_akhir' ? 'selected' : '' }}>Ujian Akhir</option>
-            </select>
+            <label>Nilai Ujian</label>
+            <input type="number" name="nilai_ujian" class="form-control"
+                   value="{{ round($ujian->nilai_ujian, 2) }}"
+                   min="0" max="100" step="0.01">
           </div>
         </div>
 
         <div class="row">
-          <div class="form-group col-md-6">
-            <label>Nilai Akhir</label>
-            <input type="number" name="nilai_akhir" class="form-control"
-                   value="{{ round($ujian->nilai_akhir, 2) }}"
-                   min="0" max="100" step="0.01">
-          </div>
 
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-12">
             <label>Status Ujian</label>
             <select name="status_ujian" class="form-control">
               <option value="belum_diuji" {{ $ujian->status_ujian == 'belum_diuji' ? 'selected' : '' }}>Belum Diuji</option>
               <option value="lulus" {{ $ujian->status_ujian == 'lulus' ? 'selected' : '' }}>Lulus</option>
-              <option value="remidi" {{ $ujian->status_ujian == 'remidi' ? 'selected' : '' }}>Remidi</option>
             </select>
           </div>
         </div>

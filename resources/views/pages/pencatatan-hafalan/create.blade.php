@@ -26,10 +26,12 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Santri</label>
-                        <select name="santri_id" class="form-control" required>
+                        <select name="santri_id" class="form-control" id="selectSantri" required>
                             <option value="">-- Pilih Santri --</option>
                             @foreach($santri as $s)
-                            <option value="{{ $s->id }}">{{ $s->nama_lengkap }}</option>
+                                <option value="{{ $s->id }}" data-semester="{{ $s->semester_id }}">
+                                    {{ $s->nama_lengkap }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -115,4 +117,17 @@
     </form>
 </div>
 </section>
+@endsection
+@section('scripts')
+<script>
+document.getElementById('selectSantri').addEventListener('change', function () {
+    var selectedOption = this.options[this.selectedIndex];
+    var semesterId = selectedOption.getAttribute('data-semester');
+
+    if (semesterId) {
+        document.querySelector('select[name="semester_id"]').value = semesterId;
+    }
+});
+</script>
+
 @endsection

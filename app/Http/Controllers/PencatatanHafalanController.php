@@ -15,8 +15,13 @@ class PencatatanHafalanController extends Controller
     public function index()
     {
         $data = PencatatanHafalan::with(['santri', 'semester'])->latest()->get();
-
-        return view('pages.pencatatan-hafalan.index', compact('data'));
+        $ziyadah = PencatatanHafalan::with(['santri', 'semester'])
+            ->where('jenis_hafalan', 'Ziyadah')
+            ->get();
+        $murajaah = PencatatanHafalan::with(['santri', 'semester'])
+            ->where('jenis_hafalan', 'Murajaah')
+            ->get();
+        return view('pages.pencatatan-hafalan.index', compact('data', 'ziyadah', 'murajaah'));
     }
 
     /**
@@ -47,6 +52,32 @@ class PencatatanHafalanController extends Controller
             'catatan' => 'nullable|string',
             'status' => 'required|string',
         ]);
+
+        $calculateJuzTercapaiSms = PencatatanHafalan::where('santri_id', $validated['santri_id'])
+            ->where('semester_id', $validated['semester_id'])
+            ->where('jenis_hafalan', 'Ziyadah')
+            ->sum('juz_tercapai');
+        $totalJuzTercapai = $calculateJuzTercapaiSms + ($validated['juz_tercapai'] ?? 0);
+
+        $santri = Santri::where('id', $validated['santri_id'])->firstOrFail();
+
+        if ($totalJuzTercapai >= 5) {
+
+            $nextSemester = \App\Models\Semester::where('id', '>', $santri->semester_id)
+                ->orderBy('id', 'asc')
+                ->first();
+
+            if ($nextSemester) {
+                $santri->update([
+                    'semester_id' => $nextSemester->id,
+                    'total_juz_tercapai' => $santri->total_juz_tercapai + $totalJuzTercapai
+                ]);
+            } else {
+                $santri->update([
+                    'total_juz_tercapai' => $santri->total_juz_tercapai + $totalJuzTercapai
+                ]);
+            }
+        }
 
         PencatatanHafalan::create($validated);
 
@@ -93,6 +124,32 @@ class PencatatanHafalanController extends Controller
             'catatan' => 'nullable|string',
             'status' => 'required|string',
         ]);
+
+        $calculateJuzTercapaiSms = PencatatanHafalan::where('santri_id', $validated['santri_id'])
+            ->where('semester_id', $validated['semester_id'])
+            ->where('jenis_hafalan', 'Ziyadah')
+            ->sum('juz_tercapai');
+        $totalJuzTercapai = $calculateJuzTercapaiSms + ($validated['juz_tercapai'] ?? 0);
+
+        $santri = Santri::where('id', $validated['santri_id'])->firstOrFail();
+
+        if ($totalJuzTercapai >= 5) {
+
+            $nextSemester = \App\Models\Semester::where('id', '>', $santri->semester_id)
+                ->orderBy('id', 'asc')
+                ->first();
+
+            if ($nextSemester) {
+                $santri->update([
+                    'semester_id' => $nextSemester->id,
+                    'total_juz_tercapai' => $santri->total_juz_tercapai + $totalJuzTercapai
+                ]);
+            } else {
+                $santri->update([
+                    'total_juz_tercapai' => $santri->total_juz_tercapai + $totalJuzTercapai
+                ]);
+            }
+        }
 
         $data = PencatatanHafalan::findOrFail($id);
         $data->update($validated);

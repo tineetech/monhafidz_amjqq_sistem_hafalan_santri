@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JadwalUjian;
 use App\Models\Santri;
+use App\Models\Semester;
 use App\Models\Ustadzah;
 use App\Services\MpwaService;
 use Illuminate\Http\Request;
@@ -16,11 +17,20 @@ class JadwalUjianController extends Controller
      */
     public function index()
     {
-        $jadwal = JadwalUjian::with(['santri', 'pembimbingPutra', 'pembimbingPutri'])
-            ->orderBy('tanggal', 'desc')
+        $semesters = \App\Models\Semester::all();
+        $filter = request('filter_semester');
+        $filterJenisUjian = request('filter_jenis_ujian');
+        $jadwal = JadwalUjian::with(['santri', 'semester', 'pembimbingPutra', 'pembimbingPutri'])
+            ->when($filter, function ($query) use ($filter) {
+                $query->where('semester_id', $filter);
+            })
+            ->when($filterJenisUjian, function ($query) use ($filterJenisUjian) {
+                $query->where('jenis_ujian', $filterJenisUjian);
+            })
+            ->orderBy('tanggal', 'asc')
             ->get();
 
-        return view('pages.jadwal-ujian.index', compact('jadwal'));
+        return view('pages.jadwal-ujian.index', compact('jadwal', 'semesters'));
     }
 
     /**
@@ -30,8 +40,9 @@ class JadwalUjianController extends Controller
     {
         $santri = Santri::orderBy('nama_lengkap','asc')->get();
         $ustadzah = Ustadzah::orderBy('nama_lengkap','asc')->get();
+        $semesters = Semester::orderBy('nama_semester','asc')->get();
 
-        return view('pages.jadwal-ujian.create', compact('santri','ustadzah'));
+        return view('pages.jadwal-ujian.create', compact('santri','ustadzah','semesters'));
     }
 
     /**
@@ -41,12 +52,13 @@ class JadwalUjianController extends Controller
     {
         $validated = $request->validate([
             'santri_id'             => 'required|exists:santri,id',
+            'semester_id'           => 'required|exists:semester,id',
             'tanggal'               => 'required|date',
             'jam_mulai'             => 'required|date_format:H:i',
             'jam_selesai'           => 'required|date_format:H:i|after:jam_mulai',
             'pembimbing_putra_id'   => 'nullable|exists:ustadzah,id',
             'pembimbing_putri_id'   => 'nullable|exists:ustadzah,id',
-            'jenis_ujian'           => 'required|in:tasmi,ujian_akhir'
+            'jenis_ujian'           => 'required'
         ]);
 
 
@@ -84,8 +96,9 @@ class JadwalUjianController extends Controller
         $jadwal = JadwalUjian::findOrFail($id);
         $santri = Santri::orderBy('nama_lengkap','asc')->get();
         $ustadzah = Ustadzah::orderBy('nama_lengkap','asc')->get();
+        $semesters = Semester::orderBy('nama_semester','asc')->get();
 
-        return view('pages.jadwal-ujian.edit', compact('jadwal','santri','ustadzah'));
+        return view('pages.jadwal-ujian.edit', compact('jadwal','santri','ustadzah','semesters'));
     }
 
     /**
@@ -95,12 +108,13 @@ class JadwalUjianController extends Controller
     {
         $validated = $request->validate([
             'santri_id'             => 'required|exists:santri,id',
+            'semester_id'           => 'required|exists:semester,id',
             'tanggal'               => 'required|date',
             'jam_mulai'             => 'required|',
             'jam_selesai'           => 'required|after:jam_mulai',
             'pembimbing_putra_id'   => 'nullable|exists:ustadzah,id',
             'pembimbing_putri_id'   => 'nullable|exists:ustadzah,id',
-            'jenis_ujian'           => 'required|in:tasmi,ujian_akhir'
+            'jenis_ujian'           => 'required'
         ]);
 
         $jadwal = JadwalUjian::findOrFail($id);

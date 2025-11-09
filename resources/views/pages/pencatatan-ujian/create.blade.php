@@ -15,30 +15,36 @@
     <div class="box-header with-border">
       <h3 class="box-title">Tambah Data Ujian</h3>
     </div>
+    @if ($errors->any())
+      <div class="alert alert-danger m-3">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
     <div class="box-body">
       <form action="{{ route('pencatatan-ujian.store') }}" method="POST">
         @csrf
 
         <div class="row">
-          <div class="form-group col-md-6">
-            <label>Tanggal</label>
-            <input type="date" name="tanggal" class="form-control" value="{{ date('Y-m-d') }}" required>
-          </div>
-
-          <div class="form-group col-md-6">
-            <label>Santri</label>
-            <select name="santri_id" class="form-control" required>
-              <option value="">Pilih Santri</option>
-              @foreach ($santri as $s)
-                <option value="{{ $s->id }}">{{ $s->nama_lengkap }}</option>
+          <div class="form-group col-md-12">
+            <label>Pilih jadwal ujian</label>
+            <select name="jadwal_ujian_id" class="form-control" required>
+              <option value="" hidden>Pilih Jadwal Ujian</option>
+              @foreach ($jadwalUjian as $jadwal)
+                <option value="{{ $jadwal->id }}">
+                  {{ ucfirst($jadwal->santri->nama_lengkap) }} | {{ $jadwal->semester->nama_semester }} | {{ $jadwal->tanggal }} | {{ ucfirst($jadwal->jenis_ujian) }}
+                </option>
               @endforeach
-            </select>
+            </select> 
           </div>
         </div>
 
         <div class="row">
           <div class="form-group col-md-6">
-            <label>Ustadzah Penilai</label>
+            <label>Pengawas</label>
             <select name="ustadzah_id" class="form-control">
               <option value="">Tidak Ada</option>
               @foreach ($ustadzah as $u)
@@ -46,28 +52,20 @@
               @endforeach
             </select>
           </div>
-
           <div class="form-group col-md-6">
-            <label>Jenis Ujian</label>
-            <select name="jenis_ujian" class="form-control" required>
-              <option value="tasmi">Tasmi'</option>
-              <option value="ujian_akhir">Ujian Akhir</option>
-            </select>
+            <label>Nilai Ujian</label>
+            <input type="number" name="nilai_ujian" placeholder="Masukan nilai ujian" class="form-control" min="0" max="100" step="0.01">
           </div>
+
         </div>
 
         <div class="row">
-          <div class="form-group col-md-6">
-            <label>Nilai Akhir</label>
-            <input type="number" name="nilai_akhir" class="form-control" min="0" max="100" step="0.01">
-          </div>
 
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-12">
             <label>Status Ujian</label>
             <select name="status_ujian" class="form-control">
-              <option value="belum_diuji">Belum Diuji</option>
               <option value="lulus">Lulus</option>
-              <option value="remidi">Remidi</option>
+              <option value="belum_diuji">Belum Diuji</option>
             </select>
           </div>
         </div>

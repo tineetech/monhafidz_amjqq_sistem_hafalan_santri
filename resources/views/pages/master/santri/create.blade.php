@@ -100,7 +100,8 @@
                 <select name="status_santri" class="form-control" required>
                     <option value="">Pilih status santri</option>
                     <option value="aktif">Aktif</option>
-                    <option value="tidak aktif">Tidak AKtif</option>
+                    <option value="tidak aktif">Tidak Aktif</option>
+                    <option value="tamat hafalan">Tamat Hafalan</option>
                     <option value="lulus">Lulus</option>
                 </select>
             </div>

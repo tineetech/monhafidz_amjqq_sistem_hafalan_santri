@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/jadwal-ujian', App\Http\Controllers\JadwalUjianController::class);
     Route::resource('/pencatatan-ujian', App\Http\Controllers\PencatatanUjianController::class);
+    Route::get('pencatatan-ujian/filter', [App\Http\Controllers\PencatatanUjianController::class, 'index'])->name('pencatatan-ujian.filter');
     
     Route::resource('/laporan', App\Http\Controllers\LaporanController::class);
 
@@ -49,6 +50,10 @@ Route::get('/export/laporan/absensi/export-pdf', [LaporanController::class, 'exp
 
 Route::get('/sertifikat-tahfidz', [SertifikatController::class, 'generate30Juz'])
     ->name('sertifikat.tahfidz');
+Route::get('/sertifikat-kelulusan', [SertifikatController::class, 'generateSertifikatKelulusan'])
+    ->name('sertifikat.kelulusan');
+Route::get('/sertifikat-top3', [SertifikatController::class, 'generateSertifikatPeringkat'])
+    ->name('sertifikat.top3');
 
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
